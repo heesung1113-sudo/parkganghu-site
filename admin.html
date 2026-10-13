@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="assets/brand/favicon.ico" sizes="any">
+<title>홈페이지 관리 | 박강후스키앤보드스쿨</title>
+<style>
+:root{--navy:#0E2746;--ink:#13202F;--sub:#566275;--line:#E1E7EE;--snow:#F4F7FA;--gold:#B88A3E;--red:#B42318;--green:#1E7B4A;font-family:"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",sans-serif;box-sizing:border-box}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--snow);color:var(--ink);font-size:16px;line-height:1.6;word-break:keep-all;padding-bottom:110px}
+header{background:var(--navy);color:#fff;padding:calc(14px + env(safe-area-inset-top,0px)) 18px 14px}
+header b{font-size:18px}header p{margin:2px 0 0;font-size:13px;opacity:.8}
+main{max-width:640px;margin:0 auto;padding:12px}
+details.card{background:#fff;border:1px solid var(--line);border-radius:16px;margin:10px 0;overflow:hidden}
+details.card>summary{list-style:none;padding:16px 18px;font-weight:700;color:var(--navy);cursor:pointer;display:flex;justify-content:space-between}
+details.card>summary::-webkit-details-marker{display:none}
+details.card>summary::after{content:"+";color:var(--gold);font-size:20px;line-height:1}
+details.card[open]>summary::after{content:"−"}
+.body{padding:0 18px 18px}
+label{display:block;font-size:14px;color:var(--sub);margin:12px 0 4px}
+input[type=text],input[type=url],input[type=password],textarea{width:100%;font:inherit;padding:12px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
+textarea{min-height:90px}
+.row{display:flex;gap:8px;align-items:center}
+.check{display:flex;gap:10px;align-items:center;margin-top:12px;font-size:15px}
+.check input{width:22px;height:22px}
+button{font:inherit;font-weight:700;min-height:46px;padding:0 16px;border-radius:12px;border:1px solid var(--line);background:#fff;color:var(--navy);cursor:pointer}
+button.primary{background:var(--navy);border-color:var(--navy);color:#fff}
+button.small{min-height:36px;padding:0 10px;font-size:14px;font-weight:600}
+.item{border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:10px}
+.item b{display:block;color:var(--navy)}
+.item .meta{font-size:13px;color:var(--sub)}
+.badge{display:inline-block;font-size:12px;padding:1px 8px;border-radius:999px;margin-left:6px}
+.ok{background:#E3F4EA;color:var(--green)}.no{background:#FDECEA;color:var(--red)}
+.hint{font-size:13.5px;color:var(--sub);margin-top:8px}
+.warn{background:#FFF4E5;border:1px solid #F0C48A;color:#7A3E00;border-radius:12px;padding:12px 14px;margin:10px 0;font-size:14.5px}
+.savebar{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--line);padding:10px 12px calc(10px + env(safe-area-inset-bottom,0px));display:flex;gap:8px;align-items:center}
+.savebar button{flex:1}
+#status{font-size:13.5px;color:var(--sub);max-width:46%}
+</style>
+</head>
+<body>
+<header><b>홈페이지 관리</b><p>저장하면 1~2분 뒤 홈페이지에 반영됩니다.</p></header>
+<main>
+
+<details class="card" id="setup-card">
+  <summary>1. 연결 설정 (처음 한 번)</summary>
+  <div class="body">
+    <p class="hint">GitHub 저장소 정보와 토큰을 입력합니다. 토큰은 이 휴대폰 브라우저에만 저장되고 홈페이지에는 올라가지 않습니다.</p>
+    <label>GitHub 아이디</label><input type="text" id="owner" autocomplete="off" autocapitalize="off">
+    <label>저장소 이름</label><input type="text" id="repo" autocomplete="off" autocapitalize="off" placeholder="예: parkganghu-site">
+    <label>브랜치</label><input type="text" id="branch" value="main" autocapitalize="off">
+    <label>토큰 (Fine-grained, 이 저장소의 Contents 쓰기 권한만)</label><input type="password" id="token" autocomplete="off">
+    <div class="row" style="margin-top:12px"><button class="primary" id="connect">연결하고 불러오기</button><button id="forget">토큰 지우기</button></div>
+  </div>
+</details>
+
+<div id="editor" hidden>
+<div class="warn" id="review-warn" hidden>지금은 '검토 모드'입니다. 공개 동의가 확인되지 않은 영상도 홈페이지에 보입니다. 정식 공개 전 아래 '공개 설정'에서 끄세요.</div>
+
+<details class="card" open>
+  <summary>2. 강습 영상</summary>
+  <div class="body">
+    <label>종목</label><div class="row"><label class="check" style="margin:0"><input type="radio" name="v-sport" value="ski" checked> 스키</label><label class="check" style="margin:0 0 0 18px"><input type="radio" name="v-sport" value="board"> 스노보드</label></div>
+    <label>유튜브 쇼츠 링크</label><input type="url" id="v-url" placeholder="https://youtube.com/shorts/...">
+    <label>제목</label><input type="text" id="v-title" placeholder="예: 7살, 처음 A자로 멈춘 날">
+    <label>설명 (영상에서 보이는 지도 내용, 한두 문장)</label><textarea id="v-point"></textarea>
+    <label>작은 표시</label><input type="text" id="v-tag" placeholder="예: 스키 · 처음">
+    <label class="check"><input type="checkbox" id="v-consent"> 보호자 공개 동의를 확인했습니다</label>
+    <button class="primary" id="v-add" style="margin-top:12px;width:100%">맨 앞에 영상 추가</button>
+    <p class="hint">종목별로 위에 있는 영상 2개가 홈페이지 스키·스노보드 영역에 나오고, 나머지는 '전체 영상 보기'에 들어갑니다.</p>
+    <div id="v-list"></div>
+  </div>
+</details>
+
+<details class="card">
+  <summary>3. 공지·이벤트</summary>
+  <div class="body">
+    <label class="check"><input type="checkbox" id="n-show"> 홈페이지 맨 위에 공지 표시</label>
+    <label>공지 내용</label><input type="text" id="n-text">
+    <label>연결할 링크 (선택)</label><input type="url" id="n-link">
+  </div>
+</details>
+
+<details class="card">
+  <summary>4. 고객 후기</summary>
+  <div class="body">
+    <p class="hint">실제 후기만, 작성자의 게시 동의를 받은 뒤 입력하세요.</p>
+    <label>후기 내용</label><textarea id="r-text"></textarea>
+    <label>작성자 표시</label><input type="text" id="r-who" placeholder="예: 7세 자녀 보호자">
+    <label>날짜</label><input type="text" id="r-date" placeholder="예: 2026.12">
+    <button class="primary" id="r-add" style="margin-top:12px;width:100%">후기 추가</button>
+    <div id="r-list"></div>
+  </div>
+</details>
+
+<details class="card">
+  <summary>5. 예약 링크·연락처</summary>
+  <div class="body">
+    <label>네이버 예약 링크</label><input type="url" id="c-booking">
+    <label>전화번호 (비워두면 버튼이 생기지 않음)</label><input type="text" id="c-phone">
+    <label>상담자 이름</label><input type="text" id="c-phonename">
+    <label>카카오톡 채널 주소</label><input type="url" id="c-kakao">
+    <label>인스타그램 주소</label><input type="url" id="c-instagram">
+    <label>유튜브 채널 주소</label><input type="url" id="c-ytc">
+    <label>유튜브 재생목록 주소 (넣으면 '전체 영상'에 자동 갱신 재생목록 표시)</label><input type="url" id="c-ytp">
+    <label>네이버 클립 주소</label><input type="url" id="c-clip">
+    <label>시즌 안내 문구</label><input type="text" id="c-season">
+  </div>
+</details>
+
+<details class="card">
+  <summary>6. 요금·시간표·환불</summary>
+  <div class="body">
+    <label class="check"><input type="checkbox" id="p-confirmed"> 확정된 요금을 홈페이지에 공개</label>
+    <label>요금 (한 줄에 하나: 시간 | 인원 | 금액)</label><textarea id="p-plans" placeholder="2시간 | 1:1 | 00만 원"></textarea>
+    <label>강습 허가권 (한 줄에 하나: 강습 시간 | 금액 | 참고)</label><textarea id="p-permits" placeholder="2시간 강습 | 25,000원"></textarea>
+    <label>요금 아래 안내 문구</label><input type="text" id="p-note">
+    <label>강습 시간표 (한 줄에 하나)</label><textarea id="p-schedule"></textarea>
+    <label>포함 사항 (한 줄에 하나)</label><textarea id="p-included"></textarea>
+    <label>별도 비용 (한 줄에 하나)</label><textarea id="p-separate"></textarea>
+    <label>취소·환불 규정 (한 줄에 하나)</label><textarea id="p-refund"></textarea>
+    <p class="hint">비어 있는 항목은 홈페이지에 나오지 않습니다.</p>
+  </div>
+</details>
+
+<details class="card">
+  <summary>7. 추가 안내 (FAQ·만남 장소·강사진·사업자)</summary>
+  <div class="body">
+    <div id="faq-edit"></div>
+    <label>만나는 장소 안내</label><input type="text" id="m-text">
+    <label>전문 강사진 강습 소개 (비워두면 표시 안 됨)</label><textarea id="t-text"></textarea>
+    <label>평창 개막식 촬영 관련 유튜브 링크 (선택)</label><input type="url" id="o-yt">
+    <label>대표자명</label><input type="text" id="b-owner">
+    <label>사업자등록번호</label><input type="text" id="b-no">
+    <label>사업장 주소</label><input type="text" id="b-addr">
+  </div>
+</details>
+
+<details class="card">
+  <summary>8. 사진 교체</summary>
+  <div class="body">
+    <p class="hint">사진을 고르면 휴대폰에서 자동으로 줄여서 바로 올립니다. 저장 버튼과 별개로 즉시 반영됩니다.</p>
+    <label>첫 화면 사진 (휴대폰용, 가로 사진 권장)</label><input type="file" accept="image/*" data-photo="assets/img/hero-m.webp" data-w="1100">
+    <label>첫 화면 사진 (PC용, 세로 사진 권장)</label><input type="file" accept="image/*" data-photo="assets/img/hero-d.webp" data-w="1000">
+    <label>대표 소개 사진</label><input type="file" accept="image/*" data-photo="assets/img/ceo-lift.webp" data-w="900">
+    <label>만나는 장소 사진</label><input type="file" accept="image/*" data-photo="assets/img/meeting.webp" data-w="1100" data-field="meeting">
+    <label>평창 개막식 촬영 사진</label><input type="file" accept="image/*" data-photo="assets/img/olympic.webp" data-w="1100" data-field="olympic">
+  </div>
+</details>
+
+<details class="card">
+  <summary>9. 공개 설정</summary>
+  <div class="body">
+    <label class="check"><input type="checkbox" id="s-review"> 검토 모드 (동의 미확인 영상도 표시)</label>
+    <p class="hint">정식 공개 전 반드시 끄세요. 끄면 '보호자 공개 동의'를 확인한 영상만 보입니다.</p>
+  </div>
+</details>
+</div>
+</main>
+
+<div class="savebar"><span id="status">연결 전</span><button class="primary" id="save" disabled>저장하기</button></div>
+
+<script>
+(function(){
+  var $=function(id){return document.getElementById(id)};
+  var DATA_PATH='data/site.json', D=null, sha=null;
+  var cfg=JSON.parse(localStorage.getItem('pgh-admin')||'{}');
+  ['owner','repo','branch','token'].forEach(function(k){if(cfg[k])$(k).value=cfg[k]});if(!cfg.token)$('setup-card').open=true;
+  function status(t){$('status').textContent=t}
+  function api(path,opt){
+    opt=opt||{};opt.headers={'Authorization':'Bearer '+cfg.token,'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'};
+    return fetch('https://api.github.com/repos/'+cfg.owner+'/'+cfg.repo+'/contents/'+path+(opt.method?'':'?ref='+encodeURIComponent(cfg.branch)),opt);
+  }
+  function b64utf8(s){return btoa(unescape(encodeURIComponent(s)))}
+  function utf8b64(b){return decodeURIComponent(escape(atob(b.replace(/\n/g,''))))}
+  async function getSha(path){var r=await api(path);if(r.status===404)return null;if(!r.ok)throw new Error('불러오기 실패 ('+r.status+')');return (await r.json()).sha}
+  async function put(path,b64,message){
+    var s=await getSha(path),body={message:message,content:b64,branch:cfg.branch};if(s)body.sha=s;
+    var r=await api(path,{method:'PUT',body:JSON.stringify(body)});
+    if(!r.ok){var t=await r.text();throw new Error('저장 실패 ('+r.status+') '+t.slice(0,120))}
+    return (await r.json()).content.sha;
+  }
+  function ytId(u){var m=String(u||'').match(/(?:shorts\/|v=|youtu\.be\/|embed\/)([\w-]{11})/);return m?m[1]:null}
+  function lines(id){return $(id).value.split('\n').map(function(x){return x.trim()}).filter(Boolean)}
+  function esc(t){var d=document.createElement('div');d.textContent=t==null?'':String(t);return d.innerHTML}
+
+  $('connect').onclick=async function(){
+    cfg={owner:$('owner').value.trim(),repo:$('repo').value.trim(),branch:$('branch').value.trim()||'main',token:$('token').value.trim()};
+    localStorage.setItem('pgh-admin',JSON.stringify(cfg));
+    status('불러오는 중…');
+    try{
+      var r=await api(DATA_PATH);if(!r.ok)throw new Error('data/site.json을 찾지 못했습니다 ('+r.status+')');
+      var j=await r.json();sha=j.sha;D=JSON.parse(utf8b64(j.content));fill();$('editor').hidden=false;$('save').disabled=false;$('setup-card').open=false;status('불러왔습니다');
+    }catch(e){status(e.message)}
+  };
+  $('forget').onclick=function(){localStorage.removeItem('pgh-admin');$('token').value='';status('토큰을 지웠습니다')};
+
+  function renderVideos(){
+    $('v-list').innerHTML=D.videos.map(function(v,i){
+      return '<div class="item"><b>['+(v.sport==='board'?'스노보드':'스키')+'] '+esc(v.title)+(v.consent?'<span class="badge ok">공개 동의 확인</span>':'<span class="badge no">동의 미확인</span>')+'</b><div class="meta">'+esc(v.youtube||v.src)+'</div><div class="row" style="margin-top:8px;flex-wrap:wrap"><button class="small" data-a="up" data-i="'+i+'">위로</button><button class="small" data-a="consent" data-i="'+i+'">'+(v.consent?'동의 해제':'동의 확인')+'</button><button class="small" data-a="del" data-i="'+i+'">삭제</button></div></div>';
+    }).join('');
+  }
+  $('v-list').onclick=function(e){var b=e.target.closest('button');if(!b)return;var i=+b.dataset.i,a=b.dataset.a;
+    if(a==='up'&&i>0){var t=D.videos[i];D.videos[i]=D.videos[i-1];D.videos[i-1]=t}
+    if(a==='consent')D.videos[i].consent=!D.videos[i].consent;
+    if(a==='del'&&confirm('이 영상을 목록에서 뺄까요?'))D.videos.splice(i,1);
+    renderVideos();status('저장하지 않은 변경이 있습니다');};
+  $('v-add').onclick=function(){
+    var id=ytId($('v-url').value);if(!id){alert('유튜브 링크를 확인해 주세요.');return}
+    if(!$('v-title').value.trim()){alert('제목을 입력해 주세요.');return}
+    var sp=(document.querySelector('[name=v-sport]:checked')||{}).value||'ski';D.videos.unshift({id:id,sport:sp,title:$('v-title').value.trim(),point:$('v-point').value.trim(),src:'',youtube:'https://youtube.com/shorts/'+id,poster:'',tag:$('v-tag').value.trim()||'실제 강습',consent:$('v-consent').checked});
+    ['v-url','v-title','v-point','v-tag'].forEach(function(k){$(k).value=''});$('v-consent').checked=false;renderVideos();status('추가됨. 저장하기를 눌러 주세요');
+  };
+  function renderReviews(){$('r-list').innerHTML=D.reviews.map(function(r,i){return '<div class="item"><b>'+esc(r.who||'후기')+'</b><div class="meta">'+esc(r.text)+'</div><button class="small" data-i="'+i+'" style="margin-top:8px">삭제</button></div>'}).join('')}
+  $('r-list').onclick=function(e){var b=e.target.closest('button');if(b&&confirm('삭제할까요?')){D.reviews.splice(+b.dataset.i,1);renderReviews()}};
+  $('r-add').onclick=function(){if(!$('r-text').value.trim())return;D.reviews.push({text:$('r-text').value.trim(),who:$('r-who').value.trim(),date:$('r-date').value.trim()});['r-text','r-who','r-date'].forEach(function(k){$(k).value=''});renderReviews();status('추가됨. 저장하기를 눌러 주세요')};
+
+  function fill(){
+    D.videos=D.videos||[];D.reviews=D.reviews||[];D.contact=D.contact||{};D.pricing=D.pricing||{};D.notice=D.notice||{};
+    renderVideos();renderReviews();
+    $('n-show').checked=!!D.notice.show;$('n-text').value=D.notice.text||'';$('n-link').value=D.notice.link||'';
+    $('c-booking').value=D.bookingUrl||'';var C=D.contact;$('c-phone').value=C.phone||'';$('c-phonename').value=C.phoneName||'';$('c-kakao').value=C.kakao||'';$('c-instagram').value=C.instagram||'';$('c-ytc').value=C.youtubeChannel||'';$('c-ytp').value=C.youtubePlaylist||'';$('c-clip').value=C.naverClip||'';$('c-season').value=D.seasonText||'';
+    var P=D.pricing;$('p-confirmed').checked=!!P.confirmed;$('p-note').value=P.note||'';
+    $('p-plans').value=(P.plans||[]).map(function(p){return (p.rows||[]).map(function(r){return p.name+' | '+r[0]+' | '+(r[1]||'')}).join('\n')}).join('\n');
+    ['schedule','included','separate','refund'].forEach(function(k){$('p-'+k).value=(P[k]||[]).join('\n')});
+    $('p-permits').value=(P.permits||[]).map(function(r){return r.filter(Boolean).join(' | ')}).join('\n');
+    $('faq-edit').innerHTML=(D.faqExtra||[]).map(function(f,i){return '<label>질문: '+esc(f.q)+' (답변을 비워두면 표시 안 됨)</label><textarea data-faq="'+i+'">'+esc(f.a||'')+'</textarea>'}).join('');
+    $('m-text').value=(D.meetingPlace||{}).text||'';$('t-text').value=(D.teamLesson||{}).text||'';$('o-yt').value=(D.olympicMedia||{}).youtube||'';
+    var B=D.business||{};$('b-owner').value=B.owner||'';$('b-no').value=B.bizNo||'';$('b-addr').value=B.address||'';
+    $('s-review').checked=!!D.reviewMode;$('review-warn').hidden=!D.reviewMode;
+  }
+  function collect(){
+    D.notice={show:$('n-show').checked,text:$('n-text').value.trim(),link:$('n-link').value.trim()};
+    D.bookingUrl=$('c-booking').value.trim();D.seasonText=$('c-season').value.trim();
+    Object.assign(D.contact,{phone:$('c-phone').value.trim(),phoneName:$('c-phonename').value.trim(),kakao:$('c-kakao').value.trim(),instagram:$('c-instagram').value.trim(),youtubeChannel:$('c-ytc').value.trim(),youtubePlaylist:$('c-ytp').value.trim(),naverClip:$('c-clip').value.trim()});
+    var plans={},order=[];lines('p-plans').forEach(function(l){var p=l.split('|').map(function(x){return x.trim()});if(p.length<3)return;if(!plans[p[0]]){plans[p[0]]=[];order.push(p[0])}plans[p[0]].push([p[1],p[2]])});
+    var oldP=D.pricing||{};D.pricing={permitNote:oldP.permitNote||'',place:oldP.place||[],permits:lines('p-permits').map(function(l){var p=l.split('|').map(function(x){return x.trim()});return [p[0]||'',p[1]||'',p[2]||'']}),confirmed:$('p-confirmed').checked,note:$('p-note').value.trim(),plans:order.map(function(n){var old=(oldP.plans||[]).filter(function(x){return x.name===n})[0];return {name:n,sub:old?old.sub||'':'',rows:plans[n]}}),schedule:lines('p-schedule'),included:lines('p-included'),separate:lines('p-separate'),refund:lines('p-refund')};
+    document.querySelectorAll('[data-faq]').forEach(function(t){D.faqExtra[+t.dataset.faq].a=t.value.trim()});
+    D.meetingPlace=Object.assign(D.meetingPlace||{},{text:$('m-text').value.trim()});
+    D.teamLesson={text:$('t-text').value.trim()};
+    D.olympicMedia=Object.assign(D.olympicMedia||{},{youtube:$('o-yt').value.trim()});
+    D.business=Object.assign(D.business||{},{owner:$('b-owner').value.trim(),bizNo:$('b-no').value.trim(),address:$('b-addr').value.trim()});
+    D.reviewMode=$('s-review').checked;
+  }
+  $('s-review').onchange=function(){$('review-warn').hidden=!this.checked};
+  $('save').onclick=async function(){
+    if(!D)return;collect();
+    if(D.pricing.confirmed&&!D.pricing.plans.length&&!confirm('요금 공개를 켰지만 입력된 요금이 없습니다. 그대로 저장할까요?'))return;
+    status('저장 중…');$('save').disabled=true;
+    try{await put(DATA_PATH,b64utf8(JSON.stringify(D,null,2)),'홈페이지 내용 수정');status('저장 완료. 1~2분 뒤 반영됩니다');}
+    catch(e){status(e.message)}
+    $('save').disabled=false;
+  };
+
+  // 사진: 휴대폰에서 줄여서 webp로 업로드
+  document.querySelectorAll('[data-photo]').forEach(function(inp){
+    inp.onchange=async function(){
+      var f=inp.files[0];if(!f||!D)return;status('사진 줄이는 중…');
+      try{
+        var img=await createImageBitmap(f,{imageOrientation:'from-image'}),w=Math.min(+inp.dataset.w,img.width),h=Math.round(img.height*w/img.width);
+        var c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);
+        var url=c.toDataURL('image/webp',0.8);if(url.indexOf('image/webp')<0)throw new Error('이 브라우저는 webp 저장을 지원하지 않습니다. 크롬에서 열어 주세요.');
+        status('사진 올리는 중…');await put(inp.dataset.photo,url.split(',')[1],'사진 교체: '+inp.dataset.photo);
+        if(inp.dataset.field==='meeting'){D.meetingPlace=D.meetingPlace||{};D.meetingPlace.photo=inp.dataset.photo+'?v='+Date.now()}
+        if(inp.dataset.field==='olympic'){D.olympicMedia=D.olympicMedia||{};D.olympicMedia.photo=inp.dataset.photo+'?v='+Date.now()}
+        status(inp.dataset.field?'사진 올림. 저장하기도 눌러 주세요':'사진 교체 완료. 1~2분 뒤 반영됩니다');
+      }catch(e){status(e.message)}
+      inp.value='';
+    };
+  });
+})();
+</script>
+</body>
+</html>
