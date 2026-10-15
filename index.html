@@ -21,7 +21,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600&family=Noto+Serif+KR:wght@600;700&display=swap" rel="stylesheet">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"SportsActivityLocation","name":"박강후스키앤보드스쿨","alternateName":"PARK GANG HU Ski & Board School","description":"강원도 홍천 비발디파크 유아·어린이 스키강습과 스노보드 강습. 청소년·성인 강습 가능.","address":{"@type":"PostalAddress","addressRegion":"강원특별자치도","addressLocality":"홍천군","addressCountry":"KR"},"areaServed":"비발디파크","logo":"https://www.example.com/assets/brand/pgh-mark-512.png","url":"https://www.example.com/"}
+{"@context":"https://schema.org","@type":"SportsActivityLocation","name":"박강후스키앤보드스쿨","alternateName":"PARK GANG HU Ski & Board School","description":"강원도 홍천 비발디파크 유아·어린이 스키강습과 스노보드 강습. 청소년·성인 강습 가능.","address":{"@type":"PostalAddress","streetAddress":"서면 한치골길 262","addressRegion":"강원특별자치도","addressLocality":"홍천군","postalCode":"25102","addressCountry":"KR"},"areaServed":"비발디파크","logo":"https://www.example.com/assets/brand/pgh-mark-512.png","url":"https://www.example.com/"}
 </script>
 <style>
 :root{
@@ -68,6 +68,9 @@ section{padding:72px 0}
 .site-header .wrap{display:flex;align-items:center;gap:10px;height:62px}
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none;margin-right:auto;min-width:0}
 .brand svg,.brand-mark{flex:0 0 auto}
+.brand-25{width:46px;height:46px;object-fit:contain}
+@media (max-width:389px){.brand-25{width:42px;height:42px}.brand-name{font-size:14px}.brand-name small{font-size:9.5px}.site-header .wrap{gap:7px;padding:0 14px}.brand{gap:7px}.head-book{padding:0 11px}.menu-btn{width:40px;height:40px}}
+@media (max-width:349px){.brand-25{width:38px;height:38px}.brand-name{font-size:12.5px}.head-book{display:none}}
 .brand{flex-shrink:0}
 .brand-name{display:flex;flex-direction:column;line-height:1.2;color:var(--navy);font-weight:600;font-size:16px;white-space:nowrap}
 .brand-name small{font-size:10.5px;letter-spacing:.14em;color:var(--gold);font-weight:500}
@@ -311,7 +314,12 @@ section{padding:72px 0}
 .faq .a{padding:0 0 20px;color:var(--sub)}
 
 /* location */
-.loc{display:grid;gap:12px;margin-top:24px}
+.loc{display:grid;gap:12px;margin-top:16px}
+.addr{margin-top:8px;color:var(--sub);font-size:16px}
+.map{margin-top:18px;border-radius:18px;overflow:hidden;border:1px solid var(--line);aspect-ratio:4/3;background:var(--snow)}
+@media (min-width:860px){.map{aspect-ratio:16/7}}
+.map{position:relative}.map-fb{position:absolute;inset:0;display:grid;place-items:center;padding:20px;text-align:center;color:var(--sub);font-size:15px}
+.map iframe{position:relative;width:100%;height:100%;border:0;display:block}
 @media (min-width:760px){.loc{grid-template-columns:1fr 1fr}}
 .meet{margin-top:20px;border:1px solid var(--line);border-radius:18px;overflow:hidden;background:var(--bg)}
 .meet img{width:100%;max-height:360px;object-fit:cover}
@@ -345,7 +353,7 @@ footer.site p+p{margin-top:4px}
 <header class="site-header">
   <div class="wrap">
     <a class="brand" href="#top" aria-label="박강후스키앤보드스쿨 처음으로">
-      <img src="assets/brand/pgh-mark.svg" width="40" height="40" alt="" class="brand-mark">
+      <img src="assets/brand/header-25years.webp" width="46" height="46" alt="VIVALDI PARK 25 YEARS EXPERIENCE" class="brand-mark brand-25">
       <span class="brand-name">박강후스키앤보드스쿨<small>PARK GANG HU</small></span>
     </a>
     <a class="btn btn-primary head-book" href="#" data-book>예약</a>
@@ -620,11 +628,13 @@ footer.site p+p{margin-top:4px}
 <section id="location" aria-labelledby="location-title">
   <div class="wrap">
     <p class="kicker">오시는 길</p>
-    <h2 id="location-title">강원도 홍천<br>비발디파크 스키월드</h2>
+    <h2 id="location-title">소노벨 비발디파크</h2>
+    <p class="addr">강원특별자치도 홍천군 서면 한치골길 262</p>
+    <div class="map"><span class="map-fb">지도가 보이지 않으면 아래 네이버지도 버튼을 이용해 주세요</span><iframe title="소노벨 비발디파크 위치 지도" src="https://maps.google.com/maps?q=%EC%86%8C%EB%85%B8%EB%B2%A8%20%EB%B9%84%EB%B0%9C%EB%94%94%ED%8C%8C%ED%81%AC%20%EA%B0%95%EC%9B%90%ED%8A%B9%EB%B3%84%EC%9E%90%EC%B9%98%EB%8F%84%20%ED%99%8D%EC%B2%9C%EA%B5%B0%20%EC%84%9C%EB%A9%B4%20%ED%95%9C%EC%B9%98%EA%B3%A8%EA%B8%B8%20262&amp;z=15&amp;hl=ko&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></div>
     <div class="meet" id="meet" hidden><img id="meet-photo" alt="강습 만남 장소" loading="lazy" hidden><p id="meet-text"></p></div>
     <div class="loc">
-      <a class="btn btn-ghost" href="https://map.naver.com/p/search/%EB%B9%84%EB%B0%9C%EB%94%94%ED%8C%8C%ED%81%AC%20%EC%8A%A4%ED%82%A4%EC%9B%94%EB%93%9C" target="_blank" rel="noopener">네이버 지도에서 보기</a>
-      <a class="btn btn-ghost" href="https://map.kakao.com/?q=%EB%B9%84%EB%B0%9C%EB%94%94%ED%8C%8C%ED%81%AC%20%EC%8A%A4%ED%82%A4%EC%9B%94%EB%93%9C" target="_blank" rel="noopener">카카오맵에서 보기</a>
+      <a class="btn btn-primary" href="https://naver.me/GVVowmOj" target="_blank" rel="noopener">네이버지도에서 보기</a>
+      <a class="btn btn-ghost" href="https://naver.me/GVVowmOj" target="_blank" rel="noopener">길찾기</a>
     </div>
     <p class="fine">셔틀버스·대중교통 이용 방법은 비발디파크 공식 안내를 확인해 주세요.</p>
   </div>
@@ -660,7 +670,7 @@ footer.site p+p{margin-top:4px}
 </div>
 
 <!-- 홈페이지 내용 기본값. 실제 운영 시에는 data/site.json(관리 화면에서 수정)이 우선 적용됩니다. -->
-<script type="application/json" id="site-default">{"reviewMode": false, "bookingUrl": "https://naver.me/5Gco3mI7", "seasonText": "2026-27 시즌 · 2026년 12월 1일 강습 시작 예정", "notice": {"show": false, "text": "", "link": ""}, "contact": {"phone": "010-6214-0742", "kakao": "", "instagram": "", "youtubeChannel": "", "youtubePlaylist": "", "naverClip": "", "phoneName": "기희연 매니저"}, "videos": [{"id": "follow-turns", "sport": "ski", "title": "앞에서 길을 보여주며 함께 내려가기", "point": "시작 전 하이파이브로 긴장을 풀고, 강사가 아이 바로 앞에서 내려가며 방향과 속도를 보여줍니다. 아이는 A자 자세로 따라오며 좌우로 방향을 바꿉니다.", "src": "assets/video/follow-turns.mp4", "youtube": "", "poster": "assets/img/p-follow-turns.webp", "tag": "스키 · 방향 전환", "consent": true}, {"id": "ski-11yo-growth", "sport": "ski", "title": "11살, 조용하던 아이의 스키 강습", "point": "폴 없이 팔을 벌려 균형을 잡는 연습부터, 폴을 쓰며 넓은 슬로프에서 좌우 턴을 이어 가는 모습까지 담았습니다.", "src": "assets/video/ski-11yo-growth.mp4", "youtube": "", "poster": "assets/img/p-ski-11yo-growth.webp", "tag": "스키 · 턴 연결", "consent": true}, {"id": "board-first-turns", "sport": "board", "title": "첫 스노보드, 첫 턴까지", "point": "넘어지고 다시 일어나기, 뒤꿈치 쪽 엣지로 미끄러지며 속도 줄이기를 반복한 뒤 완만한 슬로프에서 턴을 이어 갑니다.", "src": "assets/video/board-first-turns.mp4", "youtube": "", "poster": "assets/img/p-board-first-turns.webp", "tag": "스노보드 · 첫 턴", "consent": true}, {"id": "board-14yo-slopes", "sport": "board", "title": "14살, 슬로프를 넓혀 가는 스노보드", "point": "발가락 쪽과 뒤꿈치 쪽 엣지를 번갈아 쓰며 턴을 연결하고, 여러 슬로프로 코스를 넓혀 갑니다.", "src": "assets/video/board-14yo-slopes.mp4", "youtube": "", "poster": "assets/img/p-board-14yo-slopes.webp", "tag": "스노보드 · 턴 연결", "consent": true}], "reviews": [], "pricing": {"confirmed": true, "note": "강습은 예약제로 운영합니다. 강습 허가권, 장비 렌탈, 리프트권은 강습비와 별도입니다. 취소·환불 기준은 예약 시 네이버 예약 페이지에서 확인해 주세요.", "plans": [{"name": "2시간", "sub": "", "rows": [["1:1", "140,000원"], ["2:1", "200,000원"], ["3:1", "240,000원"], ["4:1", "280,000원"]]}, {"name": "3시간", "sub": "", "rows": [["1:1", "210,000원"], ["2:1", "300,000원"], ["3:1", "360,000원"]]}, {"name": "4시간", "sub": "2시간 강습 2회 진행", "rows": [["1:1", "280,000원"], ["2:1", "400,000원"], ["3:1", "480,000원"], ["4:1", "560,000원"]]}], "schedule": ["1교시 09:00 – 11:00", "2교시 11:00 – 13:00", "3교시 13:00 – 15:00", "4교시 15:00 – 17:00", "정설·휴식 시간", "5교시 19:00 – 21:00", "장비 착용과 준비 시간을 고려해 예약 시간보다 20~30분 일찍 도착해 주세요."], "included": ["강습생 강습 보험 무료 가입"], "separate": ["장비 렌탈과 리프트권은 고객님이 별도로 준비해 주세요. 가능한 할인 혜택을 확인하여 안내해 드립니다.", "비발디파크 강습 허가권은 강습비와 별도인 필수 비용입니다."], "refund": [], "place": ["강습 장소: 강원도 홍천 비발디파크", "만남 장소: 예약 확정 후 강습 전 개별 안내"], "permits": [["2시간 강습", "25,000원", ""], ["3시간 강습", "35,000원", ""], ["4시간 강습", "50,000원", "2시간 허가권 2매"]], "permitNote": "강습비와 별도로 발생하는 필수 비용입니다. 비발디파크 규정에 따라 변동될 수 있습니다."}, "faqExtra": [{"q": "누가 강습을 진행하나요?", "a": "박강후 대표 직강과, 대표가 직접 선발한 전문 강사진 강습이 있습니다. 예약 일정과 강습 상황에 맞춰 배정하며, 대표 직강은 가능한 일정이 한정되어 있습니다."}, {"q": "몇 살부터 강습받을 수 있나요?", "a": ""}, {"q": "장비, 리프트권, 강습 허가권은 별도인가요?", "a": "네. 장비 렌탈, 리프트권, 비발디파크 강습 허가권은 강습비와 별도입니다. 강습 허가권은 2시간 25,000원, 3시간 35,000원, 4시간 50,000원(2시간 허가권 2매)입니다. 장비 렌탈과 리프트권은 가능한 할인 혜택을 확인하여 안내해 드립니다."}, {"q": "강습 보험이 있나요?", "a": "강습생에게 강습 보험을 무료로 가입해 드립니다."}, {"q": "취소 및 환불 규정은 어떻게 되나요?", "a": ""}], "meetingPlace": {"text": "예약 확정 후 강습 전 개별 안내", "photo": ""}, "teamLesson": {"text": "박강후 대표가 직접 선발한 전문 강사진이 함께합니다. 예약 일정과 강습 상황에 맞춰 대표 직강 또는 전문 강사진 강습으로 배정합니다."}, "olympicMedia": {"photo": "", "youtube": ""}, "business": {"name": "박강후스키앤보드스쿨", "owner": "박강후", "bizNo": "383-15-01252", "address": ""}}</script>
+<script type="application/json" id="site-default">{"reviewMode": false, "bookingUrl": "https://naver.me/5Gco3mI7", "seasonText": "2026-27 시즌 · 2026년 12월 1일 강습 시작 예정", "notice": {"show": false, "text": "", "link": ""}, "contact": {"phone": "010-6214-0742", "kakao": "", "instagram": "", "youtubeChannel": "", "youtubePlaylist": "", "naverClip": "", "phoneName": "기희연 매니저"}, "videos": [{"id": "follow-turns", "sport": "ski", "title": "앞에서 길을 보여주며 함께 내려가기", "point": "시작 전 하이파이브로 긴장을 풀고, 강사가 아이 바로 앞에서 내려가며 방향과 속도를 보여줍니다. 아이는 A자 자세로 따라오며 좌우로 방향을 바꿉니다.", "src": "assets/video/follow-turns.mp4", "youtube": "", "poster": "assets/img/p-follow-turns.webp", "tag": "스키 · 방향 전환", "consent": true}, {"id": "ski-11yo-growth", "sport": "ski", "title": "11살, 조용하던 아이의 스키 강습", "point": "폴 없이 팔을 벌려 균형을 잡는 연습부터, 폴을 쓰며 넓은 슬로프에서 좌우 턴을 이어 가는 모습까지 담았습니다.", "src": "assets/video/ski-11yo-growth.mp4", "youtube": "", "poster": "assets/img/p-ski-11yo-growth.webp", "tag": "스키 · 턴 연결", "consent": true}, {"id": "board-first-turns", "sport": "board", "title": "첫 스노보드, 첫 턴까지", "point": "넘어지고 다시 일어나기, 뒤꿈치 쪽 엣지로 미끄러지며 속도 줄이기를 반복한 뒤 완만한 슬로프에서 턴을 이어 갑니다.", "src": "assets/video/board-first-turns.mp4", "youtube": "", "poster": "assets/img/p-board-first-turns.webp", "tag": "스노보드 · 첫 턴", "consent": true}, {"id": "board-14yo-slopes", "sport": "board", "title": "14살, 슬로프를 넓혀 가는 스노보드", "point": "발가락 쪽과 뒤꿈치 쪽 엣지를 번갈아 쓰며 턴을 연결하고, 여러 슬로프로 코스를 넓혀 갑니다.", "src": "assets/video/board-14yo-slopes.mp4", "youtube": "", "poster": "assets/img/p-board-14yo-slopes.webp", "tag": "스노보드 · 턴 연결", "consent": true}], "reviews": [], "pricing": {"confirmed": true, "note": "강습은 예약제로 운영합니다. 강습 허가권, 장비 렌탈, 리프트권은 강습비와 별도입니다. 취소·환불 기준은 예약 시 네이버 예약 페이지에서 확인해 주세요.", "plans": [{"name": "2시간", "sub": "", "rows": [["1:1", "140,000원"], ["2:1", "200,000원"], ["3:1", "240,000원"], ["4:1", "280,000원"]]}, {"name": "3시간", "sub": "", "rows": [["1:1", "210,000원"], ["2:1", "300,000원"], ["3:1", "360,000원"]]}, {"name": "4시간", "sub": "2시간 강습 2회 진행", "rows": [["1:1", "280,000원"], ["2:1", "400,000원"], ["3:1", "480,000원"], ["4:1", "560,000원"]]}], "schedule": ["1교시 09:00 – 11:00", "2교시 11:00 – 13:00", "3교시 13:00 – 15:00", "4교시 15:00 – 17:00", "정설·휴식 시간", "5교시 19:00 – 21:00", "장비 착용과 준비 시간을 고려해 예약 시간보다 20~30분 일찍 도착해 주세요."], "included": ["강습생 강습 보험 무료 가입"], "separate": ["장비 렌탈과 리프트권은 고객님이 별도로 준비해 주세요. 가능한 할인 혜택을 확인하여 안내해 드립니다.", "비발디파크 강습 허가권은 강습비와 별도인 필수 비용입니다."], "refund": [], "place": ["강습 장소: 소노벨 비발디파크 (강원특별자치도 홍천군 서면 한치골길 262)", "만남 장소: 예약 확정 후 강습 전 개별 안내"], "permits": [["2시간 강습", "25,000원", ""], ["3시간 강습", "35,000원", ""], ["4시간 강습", "50,000원", "2시간 허가권 2매"]], "permitNote": "강습비와 별도로 발생하는 필수 비용입니다. 비발디파크 규정에 따라 변동될 수 있습니다."}, "faqExtra": [{"q": "누가 강습을 진행하나요?", "a": "박강후 대표 직강과, 대표가 직접 선발한 전문 강사진 강습이 있습니다. 예약 일정과 강습 상황에 맞춰 배정하며, 대표 직강은 가능한 일정이 한정되어 있습니다."}, {"q": "몇 살부터 강습받을 수 있나요?", "a": ""}, {"q": "장비, 리프트권, 강습 허가권은 별도인가요?", "a": "네. 장비 렌탈, 리프트권, 비발디파크 강습 허가권은 강습비와 별도입니다. 강습 허가권은 2시간 25,000원, 3시간 35,000원, 4시간 50,000원(2시간 허가권 2매)입니다. 장비 렌탈과 리프트권은 가능한 할인 혜택을 확인하여 안내해 드립니다."}, {"q": "강습 보험이 있나요?", "a": "강습생에게 강습 보험을 무료로 가입해 드립니다."}, {"q": "취소 및 환불 규정은 어떻게 되나요?", "a": ""}], "meetingPlace": {"text": "예약 확정 후 강습 전 개별 안내", "photo": ""}, "teamLesson": {"text": "박강후 대표가 직접 선발한 전문 강사진이 함께합니다. 예약 일정과 강습 상황에 맞춰 대표 직강 또는 전문 강사진 강습으로 배정합니다."}, "olympicMedia": {"photo": "", "youtube": ""}, "business": {"name": "박강후스키앤보드스쿨", "owner": "박강후", "bizNo": "383-15-01252", "address": ""}}</script>
 
 <script>
 var COURSE = {
@@ -769,7 +779,7 @@ var COURSE = {
     }
     var PM=(P.permits||[]).filter(function(r){return r[1]});
     if(PM.length){h+='<div class="permit"><div class="permit-h"><h3>비발디파크 강습 허가권</h3><p>'+esc(P.permitNote||'')+'</p></div><div class="permit-rows">'+PM.map(function(r){return '<div class="pr"><span>'+esc(r[0])+(r[2]?'<small>'+esc(r[2])+'</small>':'')+'</span><b>'+esc(r[1])+'</b></div>'}).join('')+'</div></div>'}
-    h+='<div class="guide">'+gcol('포함','g-in',P.included)+gcol('별도 비용','g-out',P.separate)+gcol('장소 안내','g-pl',P.place)+'</div>';
+    h+='<div class="guide">'+gcol('포함','g-in',P.included)+gcol('별도 비용','g-out',P.separate)+gcol('장소 안내','g-pl',(P.place||[]).map(function(x){return x.indexOf('강습 장소')===0?'강습 장소: 소노벨 비발디파크 (강원특별자치도 홍천군 서면 한치골길 262)':x}))+'</div>';
     h+=list('강습 시간표',P.schedule)+list('취소·환불 규정',P.refund);
     $('#price-area').innerHTML=h;
 
